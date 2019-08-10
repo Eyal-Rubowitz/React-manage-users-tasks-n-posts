@@ -1,3 +1,38 @@
-div {
-    border: solid 1px red;
+#mainUserDiv {
+    border: solid 2px red;
+    margin: 0.5%;
+    padding: 0.5%;
+    width: 85%;    
+}
+
+#userId {
+    position: absolute;
+    transform: translate(-330%, 0%);
+}
+
+#extendUserData {
+    margin: 2%;
+    border: solid 1px black;
+    border-radius: 25px;
+    background-color: lightgray;
+    height: 50%;
+    width: 40%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.userChangedBtn {
+    border: solid 1px lightgray;
+    background-color: lightsalmon;
+    margin: 0 0.25% 0 0.25%;
+}
+
+.extraUserData {
+    background-color: lightgray;
+}
+
+.markedBtn {
+    border: solid 0.2em mediumspringgreen;
+    background-color: lavender;
+    color: purple;
 }

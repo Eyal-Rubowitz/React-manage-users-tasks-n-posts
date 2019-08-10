@@ -1,0 +1,36 @@
+#mainUserList {
+    position: relative;
+    margin: 0.5%;
+    padding: 1%;
+    border: solid 1px black;
+    border-radius: 8%;
+    width: 50%;
+}
+
+#mainUserList>div{
+    margin-top: 3%;
+    position: relative;
+    left: 5%;
+}
+
+#searchTextBox {
+    position: absolute;
+    width: 80%;
+    transform: translate(0%, 0%);
+}
+
+#refreshListBtn {
+    position: absolute;
+    width: 20%;
+    transform: translate(320%, -180%);
+}
+
+#refreshListBtn>input {
+    border: solid 0.2em orange;
+    background-color: deeppink;
+}
+
+#refreshListBtn>input:hover {
+    border: solid 0.2em greenyellow;
+    background-color: red;
+}
