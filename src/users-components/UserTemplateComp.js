@@ -27,6 +27,11 @@ class UserTemplateComp extends Component {
         this.props.updateList();
     }
 
+    onUpdate = () => {
+        userModel.updateUser(this.state.userData);
+        this.props.updateList();
+    }
+
     render() {
         return (
             <div>

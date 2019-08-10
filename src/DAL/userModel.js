@@ -9,9 +9,26 @@ let getUsers = async () => {
     return users;
 }
 
+let refreshList = async () => {
+    users = [];
+    return await getUsers();
+}
+
 let deleteUser = (id) => {
     users = users.filter(u => u.id !== id);
 }
 
+let updateUser = (newUserData) => {
+    users = users.map(u => (u.id === newUserData.id) ? u = newUserData : u);
+}
 
-export default { getUsers, deleteUser}
+let searchUserMatchList = (searchText) => {
+    if (searchText === '') return users;
+    let searchList = users.filter(u => 
+         u.name.toLowerCase().includes(searchText)
+        || u.email.toLowerCase().includes(searchText)
+    );
+    return searchList;
+}
+
+export default { getUsers, refreshList, deleteUser, updateUser, searchUserMatchList }

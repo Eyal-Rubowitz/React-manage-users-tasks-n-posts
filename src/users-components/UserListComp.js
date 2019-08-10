@@ -15,7 +15,19 @@ class UserListComp extends Component {
     onUpdateList = () => {
         userModel.getUsers().then( res => 
             this.setState({userList: res})
-        )    
+        );
+    }
+
+    onRefreshList = () => {
+        userModel.refreshList().then( res => 
+            this.setState({userList: res})
+        );
+    }
+
+    onHandleSearch = (e) => {
+        let searchText = e.target.value;
+        let searchedList = userModel.searchUserMatchList(searchText);
+        this.setState({userList: searchedList});
     }
 
     render() {
@@ -24,6 +36,8 @@ class UserListComp extends Component {
         })
         return (
             <div>
+                Search: <input type="text" onChange={this.onHandleSearch} />  
+                <input type="button" value="Refresh User List" onClick={this.onRefreshList} />
                 {users}
             </div>
         );
