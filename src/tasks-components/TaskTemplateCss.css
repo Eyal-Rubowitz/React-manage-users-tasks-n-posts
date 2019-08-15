@@ -1,0 +1,29 @@
+#taskDiv {
+    position: relative;
+    border: solid 2px purple;
+    margin: 0.5%;
+    width: 100%;
+    height: 7em;
+}
+
+.taskData {
+    position: relative;
+    display: inline-block;
+}
+
+#taskDiv>input {
+    position: absolute;
+    right: 10%;
+    bottom: 10%;
+    background-color: lightsalmon;
+}
+
+.hideTsk {
+    visibility: hidden;
+}
+
+.hideBtn {
+    visibility: hidden;
+    /* background-color: lightsalmon;
+    transform: translate(130%, 400%); */
+}

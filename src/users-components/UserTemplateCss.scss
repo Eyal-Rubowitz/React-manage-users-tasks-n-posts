@@ -1,8 +1,21 @@
+$green: #00A504;
+$red: #EA002A;
+$black: #000000;
+
 #mainUserDiv {
-    border: solid 2px red;
     margin: 0.5%;
     padding: 0.5%;
     width: 85%;    
+}
+
+.tasksDidNotDone {
+    border: solid 2px $red;
+    background-color: lighten($red, 50%);
+}
+
+.tasksDone {
+    border: solid 2px $green;
+    background-color: lighten($green, 70%);
 }
 
 #userId {
@@ -10,9 +23,16 @@
     transform: translate(-330%, 0%);
 }
 
+#userId:hover {
+    border: solid 1px gray;
+    background-color: whitesmoke;
+    cursor: pointer;
+    transform: translate(-310%, 0%);
+}
+
 #extendUserData {
     margin: 2%;
-    border: solid 1px black;
+    border: solid 1px $black;
     border-radius: 25px;
     background-color: lightgray;
     height: 50%;

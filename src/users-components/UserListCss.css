@@ -1,6 +1,17 @@
+#mainPage {
+    display: inline-table;
+    width: 100%;
+    margin: 1%;
+}
+
+input[type=button] {
+    cursor: pointer;
+}
+
 #mainUserList {
     position: relative;
-    margin: 0.5%;
+    display: table-cell;
+    margin: 1%;
     padding: 1%;
     border: solid 1px black;
     border-radius: 8%;
@@ -34,3 +45,27 @@
     border: solid 0.2em greenyellow;
     background-color: red;
 }
+
+#tasksAndPostsDiv {
+    position: relative;
+    display: table-cell;
+    margin: 1%;
+    width: 50%;
+}
+
+#tasksDiv {
+    padding: 2.5%;
+    margin-bottom: 4%;
+}
+
+.addBorder {
+    border: solid 1px black;
+}
+
+/* .hideEl {
+    visibility: hidden;
+} 
+
+.showEl {
+    visibility: visible;
+} */
