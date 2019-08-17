@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SearchBoxComp from '../dashboard-components/SearchBoxComp';
 import UserTemplateComp from './UserTemplateComp';
 import TaskListComp from '../tasks-components/TaskListComp';
 import PostTemplateComp from '../posts-components/PostTemplateComp';
@@ -29,16 +30,9 @@ class UserListComp extends Component {
         );
     }
 
-    onRefreshList = () => {
-        userModel.refreshList().then(res =>
-            this.setState({ userList: res })
-        );
-    }
-
-    onHandleSearch = (e) => {
-        let searchText = e.target.value;
-        let searchedList = userModel.searchUserMatchList(searchText);
-        this.setState({ userList: searchedList });
+    getSearchedUsers = async (usersFound) => {
+        let users = await usersFound;
+        this.setState({ userList: users });
     }
 
     toggleTaskPostLists = async (id) => {
@@ -70,15 +64,6 @@ class UserListComp extends Component {
                 version={this.state.version[u.id] || 0} />)
         })
 
-        // let visabilityStyle = (this.state.idToggleTasksPosts === undefined) ? 'hide' : 'show';
-
-        // let tasks = this.state.userTasks.map(t => {
-        //     return (<TaskListComp key={t.id}
-        //         taskData={t} />)
-        // })
-
-        // if (tasks.length === 0) tasks = undefined;
-
         let posts = this.state.userPosts.map(p => {
             return (<PostTemplateComp key={p.id}
                 postData={p} />)
@@ -86,20 +71,13 @@ class UserListComp extends Component {
 
         if (posts.length === 0) posts = undefined;
         let tasks = this.state.userTasks;
-        // let tlc = <TaskListComp tasksData={tasks} />;
-        // console.log('tlc: ',tlc);
         let brdr = (posts !== undefined && tasks.ref !== null) ? 'addBorder' : undefined;
 
         return (
             <div id="mainPage">
                 <div id='mainUserList'>
                     <div id="searchTextBox">
-                        Search: <input type="text" onChange={this.onHandleSearch} />
-                    </div>
-                    <div id="refreshListBtn">
-                        <input type="button"
-                            value="Refresh User List"
-                            onClick={this.onRefreshList} />
+                        {<SearchBoxComp usersFound={this.getSearchedUsers} />}
                     </div>
                     <div>
                         {users}
@@ -108,7 +86,6 @@ class UserListComp extends Component {
                 &nbsp;
                 <div id='tasksAndPostsDiv' className={brdr}>
                     <div id="tasksDiv">
-                        {/* toggleList={this.state.idToggleTasksPosts} */}
                         {<TaskListComp
                             idToggleTasksPosts={this.state.idToggleTasksPosts}
                             onTaskDone={this.onTaskDone} />}

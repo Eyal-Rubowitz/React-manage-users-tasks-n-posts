@@ -33,7 +33,7 @@ input[type=button] {
 #refreshListBtn {
     position: absolute;
     width: 20%;
-    transform: translate(320%, -180%);
+    transform: translate(400%, -100%);
 }
 
 #refreshListBtn>input {
