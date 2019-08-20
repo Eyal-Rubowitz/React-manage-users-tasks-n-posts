@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import SearchBoxComp from '../dashboard-components/SearchBoxComp';
+import DashboardComp from '../dashboard-components/DashboardComp';
 import UserTemplateComp from './UserTemplateComp';
 import UserTasksPostsComp from './UserTasksPostsComp';
+import NewUserFormComp from './NewUserFormComp';
 import userModel from '../DAL/userModel';
 import taskModel from '../DAL/taskModel';
 import postModel from '../DAL/postModel';
-import './UserListCss.css';
+// import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import './users-style/UserListCss.scss';
 
 class UserListComp extends Component {
     constructor(props) {
@@ -13,6 +15,7 @@ class UserListComp extends Component {
         this.state = {
             userList: [],
             idToggleTasksPosts: undefined,
+            toggleUserForm: false,
             userTasks: [],
             userPosts: [],
             version: {}
@@ -23,14 +26,15 @@ class UserListComp extends Component {
         this.onUpdateList();
     }
 
-    onUpdateList = () => {
-        userModel.getUsers().then(res =>
+    onUpdateList = async () => {
+        await userModel.getUsers().then(res =>
             this.setState({ userList: res })
         );
     }
 
     getSearchedUsers = async (usersFound) => {
         let users = await usersFound;
+        console.log('searched users: ', users);
         this.setState({ userList: users });
     }
 
@@ -53,6 +57,25 @@ class UserListComp extends Component {
         this.setState(version);
     }
 
+    onAddUser = async () => {
+        this.setState({ idToggleTasksPosts: undefined });
+        this.setState({toggleUserForm: true});
+        this.GetNewId();
+    }
+
+    GetNewId = () => {
+        if (this.state.userList.length === 0) return;
+        let lastUserIndex = this.state.userList.length - 1;
+        console.log('lastUserIndex:', lastUserIndex);
+        let lastUserId = this.state.userList[lastUserIndex].id;
+        console.log("lastUserId: ", lastUserId);
+        return lastUserId + 1;
+    }
+
+    onCloseUserForm = () => {
+        this.setState({ toggleUserForm: false });
+    }
+
     render() {
         let users = this.state.userList.map(u => {
             return (<UserTemplateComp key={u.id}
@@ -61,26 +84,37 @@ class UserListComp extends Component {
                 onShowTaskPostLists={this.toggleTaskPostLists}
                 version={this.state.version[u.id] || 0} />)
         })
-        
+
         let tasks = this.state.userTasks;
         let posts = this.state.userPosts;
 
+        let newUserForm = this.state.toggleUserForm ?
+            <NewUserFormComp
+                newUserId={this.GetNewId()}
+                onCloseForm={this.onCloseUserForm}
+                updateUserList={this.onUpdateList} />
+            : undefined;
+
         return (
             <div id="mainPage">
+
+                <DashboardComp
+                    usersFound={this.getSearchedUsers}
+                    onAddUser={this.onAddUser} />
+
                 <div id='mainUserList'>
-                    <div id="searchTextBox">
-                        {<SearchBoxComp usersFound={this.getSearchedUsers} />}
-                    </div>
-                    <div>
-                        {users}
-                    </div>
+                    {users}
                 </div>
+
                 &nbsp;
-                    {<UserTasksPostsComp 
-                        tasksUpdate={tasks}
-                        postsUpdate={posts}
-                        idToggleTasksPosts={this.state.idToggleTasksPosts}
-                        onTaskDone={this.onTaskDone} />}
+
+                <UserTasksPostsComp
+                    tasksUpdate={tasks}
+                    postsUpdate={posts}
+                    idToggleTasksPosts={this.state.idToggleTasksPosts}
+                    onTaskDone={this.onTaskDone} />
+                    
+                {newUserForm}
             </div>
         );
     }

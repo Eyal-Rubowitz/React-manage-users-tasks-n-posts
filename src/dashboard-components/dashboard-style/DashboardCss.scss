@@ -1,0 +1,39 @@
+#dashboard{
+    
+    #searchTextBox {
+        position: absolute;
+        width: 80%;
+        transform: translate(-35%, 30%);
+        z-index: 1;
+    }
+    
+    #refreshListBtn {
+        position: absolute;
+        width: 120%;
+        transform: translate(-69%, 30%);
+        z-index: 1;
+    }
+    
+    #refreshListBtn>input {
+        border: solid 0.2em orange;
+        background-color: deeppink;
+    }
+    
+    #refreshListBtn>input:hover {
+        border: solid 0.2em greenyellow;
+        background-color: red;
+    }
+    
+    input[type=button] {
+        position: absolute;
+        width: 7%;
+        transform: translate(535%, 30%);
+        z-index: 1;
+        background-color: orange;
+    }
+
+    input[type=button]:hover {
+        background-color: orangered;
+        
+    }
+}

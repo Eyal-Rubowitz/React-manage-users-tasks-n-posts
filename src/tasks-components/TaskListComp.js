@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import "./TaskTemplateCss.css";
 import TaskTemplateComp from './TaskTemplateComp';
 import taskModel from '../DAL/taskModel';
+import "./tasks-style/TaskTemplateCss.scss";
 
 class TaskListComp extends Component {
     constructor(props) {

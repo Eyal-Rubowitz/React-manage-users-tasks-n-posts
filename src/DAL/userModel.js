@@ -22,6 +22,11 @@ let updateUser = (newUserData) => {
     users = users.map(u => (u.id === newUserData.id) ? u = newUserData : u);
 }
 
+let addUser = async (newUser) => {
+    await users.push(newUser);
+    console.log("users: ", users.length);
+}
+
 let searchUserMatchList = (searchText) => {
     if (searchText === '') return users;
     let searchList = users.filter(u => 
@@ -31,4 +36,9 @@ let searchUserMatchList = (searchText) => {
     return searchList;
 }
 
-export default { getUsers, refreshList, deleteUser, updateUser, searchUserMatchList }
+export default { getUsers, 
+                 refreshList, 
+                 deleteUser, 
+                 updateUser,
+                 addUser,
+                 searchUserMatchList }

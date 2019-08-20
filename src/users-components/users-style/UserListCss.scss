@@ -1,0 +1,36 @@
+#mainPage {
+    display: inline-table;
+    width: 100%;
+    margin: 1%;
+}
+
+input[type=button] {
+    cursor: pointer;
+}
+
+#mainUserList {
+    position: relative;
+    display: table-cell;
+    margin: 1%;
+    padding: 1%;
+    border: solid 1px black;
+    border-radius: 8%;
+    width: 50%;
+}
+
+#mainUserList>div{
+    margin-top: 3%;
+    position: relative;
+    left: 5%;
+}
+
+#tasksAndPostsDiv {
+    position: relative;
+    display: table-cell;
+    margin: 1%;
+    width: 50%;
+}
+
+.addBorder {
+    border: solid 1px black;
+}

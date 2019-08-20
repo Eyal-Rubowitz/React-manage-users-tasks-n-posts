@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import './UserTemplateCss.scss';
+import './users-style/UserTemplateCss.scss';
 import userModel from '../DAL/userModel';
 import taskModel from '../DAL/taskModel';
 

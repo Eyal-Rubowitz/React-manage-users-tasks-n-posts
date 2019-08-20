@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import taskModel from '../DAL/taskModel';
+import './tasks-style/TaskTemplateCss.scss';
 
 class TaskTemplateComp extends Component {
     constructor(props) {
