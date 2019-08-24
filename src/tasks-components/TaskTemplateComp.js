@@ -15,8 +15,9 @@ class TaskTemplateComp extends Component {
 
     onTaskDone = () => {
         let userTask = this.props.taskData;
+        console.log('userTask: ', userTask);
         taskModel.taskDone(userTask).then(t => {
-            this.setState({task: t})
+            // this.setState({task: t});
             this.props.onTaskDone(t);
         });
     }
@@ -25,7 +26,7 @@ class TaskTemplateComp extends Component {
         let isComplete = "" + this.state.task.completed;
         let btnClass = this.state.task.completed ? 'hideBtn' : undefined;
         return (
-            <div id='taskDiv' >
+            <div className='taskDiv' >
                     <h5>Title: &nbsp; {this.state.task.title}</h5>
                     <h5>Completed: &nbsp; {isComplete}</h5>
                     <input type="button"

@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import './users-style/UserTemplateCss.scss';
 import userModel from '../DAL/userModel';
 import taskModel from '../DAL/taskModel';
 
-class UserTemplateComp extends PureComponent {
+class UserTemplateComp extends Component {
     constructor(props) {
         super(props);
         this.state = { userData: {}, isExtendUserData: false, isTasksDone: false };
@@ -15,8 +15,8 @@ class UserTemplateComp extends PureComponent {
 
     getTasksStatus = () => {
         taskModel.getUserTasks(this.props.userData.id).then(tsks => {
-            let taskStatus = tsks.length > 0 && tsks.every(t => t.completed);
-            this.setState({isTasksDone: taskStatus});
+            let taskStatus = tsks.every(t => t.completed);
+            if(this.state.isTasksDone !== taskStatus) this.setState({isTasksDone: taskStatus});
         });
     }
  
@@ -54,7 +54,7 @@ class UserTemplateComp extends PureComponent {
         this.getTasksStatus();
         let isTasksDoneClass = (!this.state.isTasksDone) ? 'tasksDidNotDone' : 'tasksDone' ;
         let extendClass = (this.state.isExtendUserData) ? 'markedBtn' : '';
-
+        let userClass = `mainUser ${isTasksDoneClass}`;
         let extendData = undefined;
         if (this.state.isExtendUserData === true) {
             extendData = <div id='extendUserData'>
@@ -65,7 +65,7 @@ class UserTemplateComp extends PureComponent {
         }
 
         return (
-            <div id='mainUserDiv' className={isTasksDoneClass}>
+            <div className={userClass}>
                 <span id='userId' onClick={this.onShowTaskPostLists}>
                     ID: {this.props.userData.id}
                 </span>

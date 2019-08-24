@@ -35,7 +35,8 @@ class NewUserFormComp extends Component {
         });
     }
 
-    onCreatUser = async () => {
+    onCreatUser = async (e) => {
+        e.preventDefault();
         let newUserId = this.state.userId;
         let newName = this.state.name;
         let newUsername = this.state.username;

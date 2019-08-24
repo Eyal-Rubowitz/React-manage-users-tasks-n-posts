@@ -1,9 +1,9 @@
-#taskDiv {
+.taskDiv {
     position: relative;
     border: solid 2px purple;
     // border: solid 2px brown;
-    margin: 0.5%;
-    width: 100%;
+    margin: 1px auto;
+    width: 99%;
     height: 7em;
 }
 
@@ -12,7 +12,7 @@
     display: inline-block;
 }
 
-#taskDiv>input {
+.taskDiv>input {
     position: absolute;
     right: 10%;
     bottom: 10%;

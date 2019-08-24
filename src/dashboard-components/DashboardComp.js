@@ -24,7 +24,7 @@ class DashboardComp extends Component {
             <div id="dashboard">
                     <SearchBoxComp usersFound={this.onGetUserList} />
                     <RefreshUserListComp usersFound={this.onGetUserList} />
-                    <input type="button" value="Add User" onClick={this.onAddUser} />
+                    <input type="button" id="addUserBtn" className="adding" value="Add User" onClick={this.onAddUser} />
             </div>
         );
     }

@@ -17,8 +17,7 @@ class UserListComp extends Component {
             idToggleTasksPosts: undefined,
             toggleUserForm: false,
             userTasks: [],
-            userPosts: [],
-            version: {}
+            userPosts: []
         };
     }
 
@@ -43,6 +42,8 @@ class UserListComp extends Component {
             await this.setState({ idToggleTasksPosts: undefined })
             : await this.setState({ idToggleTasksPosts: id });
 
+        if (this.state.idToggleTasksPosts) this.onCloseUserForm();
+
         (this.state.idToggleTasksPosts === undefined) ?
             this.setState({ userTasks: [] })
             : await taskModel.getUserTasks(id).then(t => this.setState({ userTasks: t }));
@@ -51,15 +52,13 @@ class UserListComp extends Component {
             : await postModel.getUserTasks(id).then(p => this.setState({ userPosts: p }));
     }
 
-    onTaskDone = (task) => {
-        let version = this.state.version;
-        version[task.userId] = (version[task.userId] || 0) + 1
-        this.setState(version);
-    }
-
     onAddUser = async () => {
-        this.setState({ idToggleTasksPosts: undefined });
-        this.setState({toggleUserForm: true});
+        console.log('click');
+        let colseTasksPosts = undefined;
+        console.log('colseTasksPosts: ', colseTasksPosts);
+        await this.setState({ idToggleTasksPosts: colseTasksPosts });
+        console.log('idToggleTasksPosts: ', this.state.idToggleTasksPosts);
+        this.setState({ toggleUserForm: true });
         this.GetNewId();
     }
 
@@ -76,13 +75,20 @@ class UserListComp extends Component {
         this.setState({ toggleUserForm: false });
     }
 
+    onUpdateTasks = () => {
+        let tasks = taskModel.getUserTasks(this.state.idToggleTasksPosts);
+        console.log('userListComp task: ', tasks);
+        this.setState({ userTasks: tasks });
+        console.log('userTasks: ', this.state.userTasks);
+    }
+
     render() {
         let users = this.state.userList.map(u => {
-            return (<UserTemplateComp key={u.id}
+            return (<UserTemplateComp
+                key={u.id}
                 userData={u}
                 updateList={this.onUpdateList}
-                onShowTaskPostLists={this.toggleTaskPostLists}
-                version={this.state.version[u.id] || 0} />)
+                onShowTaskPostLists={this.toggleTaskPostLists} />)
         })
 
         let tasks = this.state.userTasks;
@@ -98,23 +104,25 @@ class UserListComp extends Component {
         return (
             <div id="mainPage">
 
-                <DashboardComp
-                    usersFound={this.getSearchedUsers}
-                    onAddUser={this.onAddUser} />
-
-                <div id='mainUserList'>
-                    {users}
+                <div id='left-column'>
+                    <div id='mainUserList'>
+                        <DashboardComp
+                            usersFound={this.getSearchedUsers}
+                            onAddUser={this.onAddUser} />
+                        {users}
+                    </div>
                 </div>
 
-                &nbsp;
+                <div id="tasksAndPostsDiv">
+                    <UserTasksPostsComp
+                        tasksUpdate={tasks}
+                        postsUpdate={posts}
+                        idToggleTasksPosts={this.state.idToggleTasksPosts}
+                        onTaskDone={this.onUpdateList}
+                        getUpdatedTask={this.onUpdateTasks} />
 
-                <UserTasksPostsComp
-                    tasksUpdate={tasks}
-                    postsUpdate={posts}
-                    idToggleTasksPosts={this.state.idToggleTasksPosts}
-                    onTaskDone={this.onTaskDone} />
-                    
-                {newUserForm}
+                    {newUserForm}
+                </div>
             </div>
         );
     }

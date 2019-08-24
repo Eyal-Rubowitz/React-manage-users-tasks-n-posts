@@ -22,16 +22,16 @@ class TaskListComp extends Component {
 
     render() {
         let userTasks = this.state.taskList.filter(t => t.userId === this.props.idToggleTasksPosts)
-        userTasks = userTasks.map(t => {
+       console.log("userTasks: ", userTasks);
+        userTasks  = userTasks.map(t => {
             return (<TaskTemplateComp 
                         key={t.id} 
                         taskData={t} 
                         onTaskDone={this.onTaskDone} />)
         })
         if (userTasks.length === 0) userTasks = undefined;
-         
         return (
-            <div style={{display: (this.props.idToggleTasksPosts === undefined) ? 'none' : 'block'}}>
+            <div>
                 {userTasks}
             </div>
         );
