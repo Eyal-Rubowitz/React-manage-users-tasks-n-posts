@@ -6,13 +6,22 @@
 
 input[type=button] {
     cursor: pointer;
+    border-radius: 50px;
 
     &.adding {
         background-color: orange;
-
+        margin-top: 10px;
+        
         &:hover{
             background-color: orangered;
         }
+    }
+
+    &.btnUnClick {
+        cursor: not-allowed;
+        pointer-events: none;
+        color: gray;
+        background-color: whitesmoke;
     }
 }
 #left-column {
@@ -36,4 +45,37 @@ input[type=button] {
 
 .addBorder {
     border: solid 1px black;
+}
+
+.formStyle {
+    width: 98%;
+    margin: 10px auto 10px auto;
+    border: solid 1px gray;
+    background-color: whitesmoke;
+    border-radius: 20px;
+}
+
+.formInput {
+    display: block;
+    width: 60%;
+    margin: auto;
+    background: transparent;
+    font-family: Poppins-Regular;
+    font-size: 22px;
+    color: #555555;
+    line-height: 1.2;
+    padding: 0 2px;
+}
+
+.inputLable {
+    margin-right: 90px;
+}
+
+input[type=submit] {
+    margin-bottom: 5px;
+}
+
+form>input[type=button] {
+    margin-top: 10px;
+    margin-right: 80%;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import userModel from '../DAL/userModel';
+import SimpleReactValidator from 'simple-react-validator';
 
 class NewUserFormComp extends Component {
     constructor(props) {
@@ -10,9 +11,10 @@ class NewUserFormComp extends Component {
             username: String,
             email: String
         };
+        this.validator = new SimpleReactValidator();
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         let id = this.props.newUserId;
         console.log(id);
         await this.setState({ userId: id });
@@ -24,19 +26,21 @@ class NewUserFormComp extends Component {
     }
 
     handleInputChange = (e) => {
-        console.log('hello');
-        const target = e.target;
-        console.log('target:', target);
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.getAttribute('name');
-        console.log('name: ', name);
-        this.setState({
-            [name]: value
-        });
+        const trgt = e.target;
+        const value = trgt.type === 'checkbox' ? trgt.checked : trgt.value;
+        const name = trgt.name;
+        this.setState({ [name]: value });
     }
 
     onCreatUser = async (e) => {
         e.preventDefault();
+        if (!this.validator.allValid()) {
+            this.validator.showMessages();
+            // rerender to show messages for the first time
+            // you can use the autoForceUpdate option to do this automatically`
+            this.forceUpdate();
+            return;
+        }
         let newUserId = this.state.userId;
         let newName = this.state.name;
         let newUsername = this.state.username;
@@ -57,7 +61,6 @@ class NewUserFormComp extends Component {
                 zipcode: undefined
             }
         }
-        console.log("newSer", newSer);
         await userModel.addUser(newSer);
         this.props.onCloseForm();
         this.props.updateUserList();
@@ -66,14 +69,25 @@ class NewUserFormComp extends Component {
     render() {
         return (
             <div>
-                <input type="button" value="<= Back" onClick={this.onRoutBack} />
-                <form onSubmit={this.onCreatUser}>
-                    
-                    Full Name: <input type="text" name="name" onChange={this.handleInputChange} />
+                <form onSubmit={this.onCreatUser} className="formStyle">
+                     <input type="button" value="🡄 Back" onClick={this.onRoutBack} />
+                <br />
+                <br />
+
+                    <span className="unValidInput">
+                        {this.validator.message('name input', this.state.name, 'required|alpha_space')}
+                    </span>
+                    Full Name: <input type="text" name="name" className="formInput" onChange={this.handleInputChange} />
                     <br />
-                    User Name: <input type="text" name="username" onChange={this.handleInputChange} />
+                    <span className="unValidInput">
+                        {this.validator.message('username input', this.state.username, 'required|alpha_space')}
+                    </span>
+                    User Name: <input type="text" name="username" className="formInput" onChange={this.handleInputChange} />
                     <br />
-                    Email: <input type="text" name="email" onChange={this.handleInputChange} />
+                    <span className="unValidInput">
+                        {this.validator.message('email input', this.state.email,  'required|email')}
+                    </span>
+                    Email: <input type="text" name="email" className="formInput" onChange={this.handleInputChange} />
                     <br />
                     <input type="submit" value="Add User" />
                 </form>

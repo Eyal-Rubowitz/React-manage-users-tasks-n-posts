@@ -15,7 +15,6 @@ class TaskTemplateComp extends Component {
 
     onTaskDone = () => {
         let userTask = this.props.taskData;
-        console.log('userTask: ', userTask);
         taskModel.taskDone(userTask).then(t => {
             // this.setState({task: t});
             this.props.onTaskDone(t);

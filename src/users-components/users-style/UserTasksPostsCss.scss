@@ -8,3 +8,20 @@
     background-color: orangered;
 }
 
+#tasksDiv {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#postDiv>div:nth-child(2n) {
+    background: lightgray;
+}
+
+.formBackBtn {
+    margin-top: 15px;
+    margin-right: 380px;
+}
+
+.formAddBtn {
+    margin-top: 15px;
+}

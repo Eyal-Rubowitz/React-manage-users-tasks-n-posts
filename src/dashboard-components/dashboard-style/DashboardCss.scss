@@ -3,6 +3,8 @@
     #searchTextBox {
         display: inline-block;
         margin-right: 2px;
+        margin-right: 80px;
+
     }
     
     #refreshListBtn {
@@ -10,6 +12,7 @@
     }
     
     #refreshListBtn>input {
+        margin-right: 80px;
          border: solid 0.2em orange;
          background-color: deeppink;
     }
@@ -19,11 +22,11 @@
         background-color: red;
     }
 
- 
-    
     #addUserBtn {
         display: inline-block;
         float: right;
-        margin-right: 24px;
+        margin-right: 55px;
+        margin-top: 0px;
     }
+
 }

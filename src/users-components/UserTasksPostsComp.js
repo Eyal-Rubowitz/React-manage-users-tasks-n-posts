@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TaskListComp from '../tasks-components/TaskListComp';
 import PostTemplateComp from '../posts-components/PostTemplateComp';
 import UserNewTaskFormComp from './UserNewTaskFormComp';
+import UserNewPostFormComp from './UserNewPostFormComp';
+import postModel from '../DAL/postModel';
 import './users-style/UserTasksPostsCss.scss';
 class UserTasksPostsComp extends Component {
     constructor(props) {
@@ -11,13 +13,16 @@ class UserTasksPostsComp extends Component {
             userPosts: [],
             idToggleTasksPosts: undefined,
             toggleTaskForm: undefined,
-            nextNewTaskId: undefined,
-            togglePostForm: undefined
+            togglePostForm: undefined,
         };
     }
 
+    componentDidMount() {
+        postModel.getPosts().then(p => this.setState({ userPosts: p }))
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-        if(this.props.tasksUpdate !== nextProps.tasksUpdate){
+        if (this.props.tasksUpdate !== nextProps.tasksUpdate) {
             let newTasks = nextProps.tasksUpdate;
             if (newTasks === undefined) newTasks = [];
             let newTpggleTP = nextProps.idToggleTasksPosts
@@ -39,34 +44,46 @@ class UserTasksPostsComp extends Component {
                     userPosts: []
                 });
             }
+            if (this.state.idToggleTasksPosts === undefined 
+                || this.state.idToggleTasksPosts !== nextProps.idToggleTasksPosts) {
+                this.setState({ toggleTaskForm: false });
+                this.setState({ togglePostForm: false });
+            }
         }
-        if(this.state.userTasks !== nextState.userTasks) {
-            console.log(nextState.userTasks);
-            this.setState({userTasks: nextState.userTasks});
+        if (this.state.userTasks !== nextState.userTasks) {
+            this.setState({ userTasks: nextState.userTasks });
+        }
+        if (this.state.userPosts !== nextState.userPosts) {
+            this.setState({ userPosts: nextState.userPosts });
         }
         return true;
     }
 
-    onTaskDone = (task) => {
-        // when new task added, this method beeing called
-        // but it gets an undefind argument.
-
-        // if(task === undefined) return;
-        console.log("onTaskDone: ", task);
-        this.props.onTaskDone(task);
-    }
-
     onAddTask = () => {
-        let tgl = true;
-        this.setState({toggleTaskForm: tgl});
+        this.setState({ toggleTaskForm: true });
     }
 
-    onUpdateTaskList = async (newTaskList) => {
-        console.log('onUpdateTaskList!!!');
-        let ntl = newTaskList;
-        console.log('newTaskList: ', newTaskList);
-        await this.setState({userTasks: ntl});
-        this.props.getUpdatedTask(newTaskList[newTaskList.length - 1])
+    onAddPost = () => {
+        this.setState({ togglePostForm: true });
+    }
+
+    onCloseTaskForm = () => {
+        this.setState({ toggleTaskForm: false });
+    }
+
+    onClosePostForm = () => {
+        this.setState({ togglePostForm: false });
+    }
+
+    onUpdateTask = (task) => {
+        this.props.onTaskDone(task);
+        if (task.completed === false) this.set0State({ toggleTaskForm: false });
+    }
+
+    onUpdatePost = () => {
+        let userId = this.state.idToggleTasksPosts;
+        postModel.getUserPosts(userId).then(p => this.setState({ userPosts: p }));
+        this.setState({ togglePostForm: false });
     }
 
     render() {
@@ -76,24 +93,35 @@ class UserTasksPostsComp extends Component {
         })
         if (posts.length === 0) posts = undefined;
 
-        console.log('render userTasks: ',this.state.userTasks);
-
         let isToggle = this.state.idToggleTasksPosts;
         let brdr = isToggle ? 'addBorder' : undefined;
         let visableStyle = isToggle ? 'block' : 'none';
         let taskTgl = this.state.toggleTaskForm;
+        let postTlg = this.state.togglePostForm;
         return (
             <div className={brdr} style={{ display: visableStyle }}>
-                <input type="button" className="adding" value="Add Task" onClick={this.onAddTask} />
-                {taskTgl ? <UserNewTaskFormComp 
-                                userId={this.state.idToggleTasksPosts}
-                                getNewTaskList={this.onTaskDone} /> : null}
+                {taskTgl ? <input type="button" 
+                                  value="🡄 Back"
+                                  className="formBackBtn" 
+                                  onClick={this.onCloseTaskForm} />
+                    : <input type="button" className="adding" value="Add Task" onClick={this.onAddTask} />}
+
+                {taskTgl ? <UserNewTaskFormComp
+                    userId={this.state.idToggleTasksPosts}
+                    getNewTaskList={this.onUpdateTask} /> : null}
                 <div id="tasksDiv">
                     {<TaskListComp
                         idToggleTasksPosts={this.state.idToggleTasksPosts}
-                        onTaskDone={this.onTaskDone} />}
+                        onTaskDone={this.onUpdateTask} />}
                 </div>
-                <input type="button" value="Add Post" />
+                {postTlg ? <input type="button" 
+                                  className="formBackBtn"                                   
+                                  value="🡄 Back" 
+                                  onClick={this.onClosePostForm} />
+                    : <input type="button" className="adding" value="Add Post" onClick={this.onAddPost} />}
+                {postTlg ? <UserNewPostFormComp
+                    userId={this.state.idToggleTasksPosts}
+                    onPostChanged={this.onUpdatePost} /> : null}
                 <div id='postDiv'>
                     {posts}
                 </div>

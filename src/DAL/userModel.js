@@ -24,7 +24,6 @@ let updateUser = (newUserData) => {
 
 let addUser = async (newUser) => {
     await users.push(newUser);
-    console.log("users: ", users.length);
 }
 
 let searchUserMatchList = (searchText) => {

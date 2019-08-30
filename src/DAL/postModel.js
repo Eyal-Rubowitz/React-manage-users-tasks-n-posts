@@ -10,9 +10,14 @@ let getPosts = async () => {
 }
 
 let getUserPosts = async (userId) => {
-    let response = await axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`);
-    posts = response.data;
-    return posts;
+    let userPosts = posts.filter(p => p.userId === userId);
+    return userPosts;
 }
 
-export default {getPosts, getUserTasks: getUserPosts}
+let addPost = async (newPost) => {
+    let newPostkId = (posts.length) + 1;
+    newPost.id = newPostkId;
+    await posts.push(newPost);
+}
+
+export default {getPosts, getUserPosts, addPost}

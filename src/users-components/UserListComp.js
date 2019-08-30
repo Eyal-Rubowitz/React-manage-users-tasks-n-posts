@@ -33,7 +33,6 @@ class UserListComp extends Component {
 
     getSearchedUsers = async (usersFound) => {
         let users = await usersFound;
-        console.log('searched users: ', users);
         this.setState({ userList: users });
     }
 
@@ -49,15 +48,12 @@ class UserListComp extends Component {
             : await taskModel.getUserTasks(id).then(t => this.setState({ userTasks: t }));
 
         (this.state.idToggleTasksPosts === undefined) ? this.setState({ userPosts: [] })
-            : await postModel.getUserTasks(id).then(p => this.setState({ userPosts: p }));
+            : await postModel.getUserPosts(id).then(p => this.setState({ userPosts: p }));
     }
 
     onAddUser = async () => {
-        console.log('click');
         let colseTasksPosts = undefined;
-        console.log('colseTasksPosts: ', colseTasksPosts);
         await this.setState({ idToggleTasksPosts: colseTasksPosts });
-        console.log('idToggleTasksPosts: ', this.state.idToggleTasksPosts);
         this.setState({ toggleUserForm: true });
         this.GetNewId();
     }
@@ -65,9 +61,7 @@ class UserListComp extends Component {
     GetNewId = () => {
         if (this.state.userList.length === 0) return;
         let lastUserIndex = this.state.userList.length - 1;
-        console.log('lastUserIndex:', lastUserIndex);
         let lastUserId = this.state.userList[lastUserIndex].id;
-        console.log("lastUserId: ", lastUserId);
         return lastUserId + 1;
     }
 
@@ -77,9 +71,7 @@ class UserListComp extends Component {
 
     onUpdateTasks = () => {
         let tasks = taskModel.getUserTasks(this.state.idToggleTasksPosts);
-        console.log('userListComp task: ', tasks);
         this.setState({ userTasks: tasks });
-        console.log('userTasks: ', this.state.userTasks);
     }
 
     render() {
@@ -94,7 +86,9 @@ class UserListComp extends Component {
         let tasks = this.state.userTasks;
         let posts = this.state.userPosts;
 
-        let newUserForm = this.state.toggleUserForm ?
+        let isUserFormOpen = this.state.toggleUserForm;
+
+        let newUserForm = isUserFormOpen ?
             <NewUserFormComp
                 newUserId={this.GetNewId()}
                 onCloseForm={this.onCloseUserForm}
@@ -108,7 +102,8 @@ class UserListComp extends Component {
                     <div id='mainUserList'>
                         <DashboardComp
                             usersFound={this.getSearchedUsers}
-                            onAddUser={this.onAddUser} />
+                            onAddUser={this.onAddUser}
+                            isUserAddable={!isUserFormOpen} />
                         {users}
                     </div>
                 </div>
