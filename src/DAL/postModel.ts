@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { observable } from 'mobx';
 
 class Post {
     constructor(obj: Post) {
@@ -13,25 +14,27 @@ class Post {
     body:string;
 }
 
-let posts: Post[] = [];
+let _store: { posts: Post[] } = { posts: [] }
+const store = observable(_store); 
+
 
 let getPosts = async () => {
-    if (posts.length === 0) {
+    if (store.posts.length === 0) {
         let response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-        posts = response.data;
+        store.posts = response.data;
     }
-    return posts;
+    return store.posts;
 }
 
-let getUserPosts = async (userId: number) => {
-    let userPosts = posts.filter(p => p.userId === userId);
+let getUserPosts = (userId: number | null) => {
+    let userPosts = store.posts.filter(p => p.userId === userId);
     return userPosts;
 }
 
 let addPost = async (newPost:Post) => {
-    let newPostkId = (posts.length) + 1;
+    let newPostkId = (store.posts.length) + 1;
     newPost.id = newPostkId;
-    await posts.push(newPost);
+    await store.posts.push(newPost);
 }
 
-export default { getPosts, getUserPosts, addPost }
+export default { getPosts, getUserPosts, addPost, store }
