@@ -1,5 +1,19 @@
 import axios from 'axios';
-let posts = [];
+
+class Post {
+    constructor(obj: Post) {
+        this.userId = obj.userId;
+        this.id = obj.id;
+        this.title = obj.title;
+        this.body = obj.body;
+    }
+    userId:number;
+    id:number;
+    title:string;
+    body:string;
+}
+
+let posts: Post[] = [];
 
 let getPosts = async () => {
     if (posts.length === 0) {
@@ -9,15 +23,15 @@ let getPosts = async () => {
     return posts;
 }
 
-let getUserPosts = async (userId) => {
+let getUserPosts = async (userId: number) => {
     let userPosts = posts.filter(p => p.userId === userId);
     return userPosts;
 }
 
-let addPost = async (newPost) => {
+let addPost = async (newPost:Post) => {
     let newPostkId = (posts.length) + 1;
     newPost.id = newPostkId;
     await posts.push(newPost);
 }
 
-export default {getPosts, getUserPosts, addPost}
+export default { getPosts, getUserPosts, addPost }

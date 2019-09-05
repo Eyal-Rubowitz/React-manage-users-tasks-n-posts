@@ -83,9 +83,6 @@ class UserListComp extends Component {
                 onShowTaskPostLists={this.toggleTaskPostLists} />)
         })
 
-        let tasks = this.state.userTasks;
-        let posts = this.state.userPosts;
-
         let isUserFormOpen = this.state.toggleUserForm;
 
         let newUserForm = isUserFormOpen ?
@@ -110,8 +107,8 @@ class UserListComp extends Component {
 
                 <div id="tasksAndPostsDiv">
                     <UserTasksPostsComp
-                        tasksUpdate={tasks}
-                        postsUpdate={posts}
+                        tasksUpdate={this.state.userTasks}
+                        postsUpdate={this.state.userPosts}
                         idToggleTasksPosts={this.state.idToggleTasksPosts}
                         onTaskDone={this.onUpdateList}
                         getUpdatedTask={this.onUpdateTasks} />

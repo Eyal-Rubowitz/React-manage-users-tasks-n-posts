@@ -21,42 +21,17 @@ class UserTasksPostsComp extends Component {
         postModel.getPosts().then(p => this.setState({ userPosts: p }))
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.tasksUpdate !== nextProps.tasksUpdate) {
-            let newTasks = nextProps.tasksUpdate;
-            if (newTasks === undefined) newTasks = [];
-            let newTpggleTP = nextProps.idToggleTasksPosts
-            this.setState({ userTasks: newTasks });
-            this.setState({ idToggleTasksPosts: newTpggleTP });
-        }
-        if (this.props.postsUpdate !== nextProps.postsUpdate) {
-            let newPosts = nextProps.postsUpdate;
-            if (newPosts === undefined) newPosts = [];
-            let newTpggleTP = nextProps.idToggleTasksPosts
-            this.setState({ userPosts: newPosts });
-            this.setState({ idToggleTasksPosts: newTpggleTP });
-        }
+    componentWillUpdate(nextProps, nextState) {
         if (this.props.idToggleTasksPosts !== nextProps.idToggleTasksPosts) {
-            if (this.state.idToggleTasksPosts !== undefined) {
-                this.setState({
-                    idToggleTasksPosts: nextProps.idToggleTasksPosts,
-                    userTasks: [],
-                    userPosts: []
-                });
-            }
-            if (this.state.idToggleTasksPosts === undefined 
-                || this.state.idToggleTasksPosts !== nextProps.idToggleTasksPosts) {
-                this.setState({ toggleTaskForm: false });
-                this.setState({ togglePostForm: false });
-            }
+            let newToggleTP = nextProps.idToggleTasksPosts
+            let newTasks = nextProps.tasksUpdate;
+            let newPosts = nextProps.postsUpdate;
+            if (newTasks === undefined) newTasks = [];
+            if (newPosts === undefined) newPosts = [];
+            this.setState({ idToggleTasksPosts: newToggleTP });
+            this.setState({ userTasks: newTasks });
+            this.setState({ userPosts: newPosts });
         }
-        if (this.state.userTasks !== nextState.userTasks) {
-            this.setState({ userTasks: nextState.userTasks });
-        }
-        if (this.state.userPosts !== nextState.userPosts) {
-            this.setState({ userPosts: nextState.userPosts });
-        }
-        return true;
     }
 
     onAddTask = () => {
@@ -77,7 +52,7 @@ class UserTasksPostsComp extends Component {
 
     onUpdateTask = (task) => {
         this.props.onTaskDone(task);
-        if (task.completed === false) this.set0State({ toggleTaskForm: false });
+        if (task.completed === false) this.setState({ toggleTaskForm: false });
     }
 
     onUpdatePost = () => {
@@ -100,10 +75,10 @@ class UserTasksPostsComp extends Component {
         let postTlg = this.state.togglePostForm;
         return (
             <div className={brdr} style={{ display: visableStyle }}>
-                {taskTgl ? <input type="button" 
-                                  value="🡄 Back"
-                                  className="formBackBtn" 
-                                  onClick={this.onCloseTaskForm} />
+                {taskTgl ? <input type="button"
+                    value="🡄 Back"
+                    className="formBackBtn"
+                    onClick={this.onCloseTaskForm} />
                     : <input type="button" className="adding" value="Add Task" onClick={this.onAddTask} />}
 
                 {taskTgl ? <UserNewTaskFormComp
@@ -114,10 +89,10 @@ class UserTasksPostsComp extends Component {
                         idToggleTasksPosts={this.state.idToggleTasksPosts}
                         onTaskDone={this.onUpdateTask} />}
                 </div>
-                {postTlg ? <input type="button" 
-                                  className="formBackBtn"                                   
-                                  value="🡄 Back" 
-                                  onClick={this.onClosePostForm} />
+                {postTlg ? <input type="button"
+                    className="formBackBtn"
+                    value="🡄 Back"
+                    onClick={this.onClosePostForm} />
                     : <input type="button" className="adding" value="Add Post" onClick={this.onAddPost} />}
                 {postTlg ? <UserNewPostFormComp
                     userId={this.state.idToggleTasksPosts}
