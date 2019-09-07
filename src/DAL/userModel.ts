@@ -60,7 +60,7 @@ export function updateUser(newUserData: User) {
     await store.users.push(newUser);
 }
 
- let searchUserMatchList = (searchText: string) => {
+ export function searchUserMatchList(searchText: string) {
     if (searchText === '') return store.users;
     let searchList = store.users.filter(u =>
         u.name.toLowerCase().includes(searchText)

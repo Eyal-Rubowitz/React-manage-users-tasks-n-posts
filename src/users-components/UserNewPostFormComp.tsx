@@ -1,40 +1,38 @@
 import React, { Component } from 'react';
-import postModel from '../DAL/postModel';
+import postModel, { Post } from '../DAL/postModel';
 import SimpleReactValidator from 'simple-react-validator';
+import { observer } from 'mobx-react';
+import { AppState, FormsEnum } from '../stores/AppStore';
+import { observable } from 'mobx';
 
+@observer
 class UserNewPostFormComp extends Component {
-    constructor(props) {
+    @observable form: Partial<Post>;
+    validator: SimpleReactValidator;
+
+    constructor(props: any) {
         super(props);
-        this.state = { title: '', body: '' };
-        this.validator = new SimpleReactValidator();
+        this.form = { userId: AppState.currentUserId as number };
+        this.validator = new SimpleReactValidator({});
     }
 
-    onHandleInputChange = (e) => {
+    onHandleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let name = e.target.name;
         let value = e.target.value;
-        this.setState({ [name]: value });
+        this.form = { ...this.form, [name]: value }
     }
 
-    postSubmited = (e) => {
+    postSubmited = (e: React.FormEvent) => {
         e.preventDefault();
         if (!this.validator.allValid()) {
             this.validator.showMessages();
             // rerender to show messages for the first time
             // you can use the autoForceUpdate option to do this automatically`
-            this.forceUpdate();
             return;
         }
-        let newTitle = this.state.title;
-        let newBody = this.state.body;
-        let userId = this.props.userId;
-        let newPost = {
-            userId: userId,
-            id: undefined,
-            title: newTitle,
-            body: newBody
-        }
-        postModel.addPost(newPost);
-        this.props.onPostChanged();
+        postModel.addPost(this.form);
+        this.form = { userId: AppState.currentUserId as number };
+        AppState.activeForm = FormsEnum.None;
     }
 
     render() {
@@ -42,16 +40,16 @@ class UserNewPostFormComp extends Component {
             <div>
                 <form onSubmit={this.postSubmited} className="formStyle">
                     <span className="unValidInput">
-                        {this.validator.message('title input', this.state.title, 'required|alpha_space|min:2|max:30')}
+                        {this.validator.message('title input', this.form.title, 'required|alpha_space|min:2|max:30', {})}
                     </span>
                     Title: <input type="text" name="title" className="formInput" onChange={this.onHandleInputChange} />
                     <br />
                     <span className="unValidInput">
-                        {this.validator.message('body input', this.state.body, 'required|alpha_num_dash_space|min:5|max:120')}
+                        {this.validator.message('body input', this.form.body, 'required|alpha_num_dash_space|min:5|max:120', {})}
                     </span>
                     Body: <input type="text" name="body" className="formInput" onChange={this.onHandleInputChange} />
                     <br />
-                    <input type="submit" value="Submit Poset" />
+                    <input type="submit" value="Submit Post" />
                 </form>
             </div>
         );

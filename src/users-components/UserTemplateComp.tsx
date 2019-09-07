@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
 import './users-style/UserTemplateCss.scss';
-import { AppState } from '../stores/AppStore';
+import { AppState, FormsEnum } from '../stores/AppStore';
 import * as userModel from '../DAL/userModel';
 import taskModel from '../DAL/taskModel';
 
@@ -45,6 +45,13 @@ class UserTemplateComp extends Component<UserProps, {}> {
         userModel.updateUser(this.form);
     }
 
+    @action
+    onUserSelected = () => {
+        AppState.currentUserId = AppState.currentUserId === this.props.user.id 
+            ? null : this.props.user.id
+        AppState.activeForm = FormsEnum.None;
+    }
+
     // onToggleHover = (e) => {
     //     let bool = (e.type === 'mouseenter') ? true : false;
     //     this.setState({ isExtendUserData: bool });
@@ -68,7 +75,7 @@ class UserTemplateComp extends Component<UserProps, {}> {
         let extendClass = ''
         return (
             <div className={userClass}>
-                <span id='userId' onClick={action(() => { AppState.currentUserId = this.props.user.id })}>
+                <span id='userId' onClick={this.onUserSelected}>
                     ID: {this.props.user.id}
                 </span>
                 <br />

@@ -1,4 +1,22 @@
 import { observable } from 'mobx';
 
-let _state: { currentUserId: number | null } = { currentUserId: null };
+export enum FormsEnum {
+    None,
+    NewUser,
+    NewTask,
+    NewPost
+}
+
+let _state: {
+    currentUserId: number | null,
+    activeForm: FormsEnum, 
+    searchText: string
+}
+_state = {
+    currentUserId: null,
+    activeForm: FormsEnum.None,
+    searchText: ''
+};
+
 export const AppState = observable(_state);
+

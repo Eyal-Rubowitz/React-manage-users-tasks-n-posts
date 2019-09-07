@@ -8,49 +8,22 @@ import NewUserFormComp from './NewUserFormComp';
 import * as userModel from '../DAL/userModel';
 import taskModel from '../DAL/taskModel';
 import postModel from '../DAL/postModel';
+import { AppState } from '../stores/AppStore';
 // import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './users-style/UserListCss.scss';
+import { computed } from 'mobx';
 
 @observer
 class UserListComp extends Component {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            userList: [],
-            idToggleTasksPosts: undefined,
-            toggleUserForm: false,
-            userTasks: [],
-            userPosts: []
-        };
-    }
 
     componentDidMount() {
-        this.onUpdateList();
-    }
-
-    onUpdateList = async () => {
         userModel.getUsers();
     }
 
-    getSearchedUsers = async (usersFound: {}) => {
-        let users = await usersFound;
-        this.setState({ userList: users });
+    @computed
+    get filteredUserList() {
+        return userModel.searchUserMatchList(AppState.searchText);
     }
-
-    // toggleTaskPostLists = async (id: number) => {
-    //     (this.state.idToggleTasksPosts === id) ?
-    //         await this.setState({ idToggleTasksPosts: undefined })
-    //         : await this.setState({ idToggleTasksPosts: id });
-
-    //     if (this.state.idToggleTasksPosts) this.onCloseUserForm();
-
-    //     (this.state.idToggleTasksPosts === undefined) ?
-    //         this.setState({ userTasks: [] })
-    //         : await taskModel.getUserTasks(id).then(t => this.setState({ userTasks: t }));
-
-    //     (this.state.idToggleTasksPosts === undefined) ? this.setState({ userPosts: [] })
-    //         : await postModel.getUserPosts(id).then(p => this.setState({ userPosts: p }));
-    // }
 
     onAddUser = async () => {
         let colseTasksPosts = undefined;
@@ -69,15 +42,10 @@ class UserListComp extends Component {
     onCloseUserForm = () => {
         this.setState({ toggleUserForm: false });
     }
-
-    // onUpdateTasks = () => {
-    //     let tasks = taskModel.getUserTasks(this.state.idToggleTasksPosts);
-    //     this.setState({ userTasks: tasks });
-    // }
-
+    
     render() {
-        let userList = userModel.store.users;
-        let users = userList.map((u:any) => {
+        let userList = this.filteredUserList;
+        let users = userList.map((u: any) => {
             return (<UserTemplateComp
                 key={u.id}
                 user={u} />)
@@ -85,21 +53,22 @@ class UserListComp extends Component {
 
         return (
             <div id="mainPage">
-            <div id='left-column'>
-                {/* <div>
+                <div id='left-column'>
+                    {/* <div>
                     Names: {userList.map((u:any) => {
                         return(<span>{u.name}, </span>)
                     })}
                 </div> */}
-                <div id='mainUserList'>
-                {users}
-                </div>
+                    <div id='mainUserList'>
+                        <DashboardComp />
+                        {users}
+                    </div>
                 </div>
                 <div id="tasksAndPostsDiv">
-                    <PostListComp />
+                    {AppState.currentUserId && <UserTasksPostsComp />}
                 </div>
             </div>
-            
+
         );
         // let users = this.state.userList.map(u => {
         //     return (<UserTemplateComp
