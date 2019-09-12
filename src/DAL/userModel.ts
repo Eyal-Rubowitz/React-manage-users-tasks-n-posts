@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { observable } from 'mobx';
+import { observable, toJS } from 'mobx';
 import { number } from 'prop-types';
 
 class Company {
@@ -7,7 +7,7 @@ class Company {
     catchPhrase: string = '';
     bs: string = '';
 }
-class Address {
+export class Address {
     street: string = '';
     suite: string = '';
     city: string = '';
@@ -21,6 +21,7 @@ export class User {
         this.name = obj.name;
         this.username = obj.username;
         this.email = obj.email;
+        this.address = toJS(obj.address);
     }
     id: number;
     @observable name: string;
@@ -56,8 +57,9 @@ export function updateUser(newUserData: User) {
     store.users = store.users.map(u => (u.id === newUserData.id) ? newUser : u);
 }
 
- let addUser = async (newUser: User) => {
-    await store.users.push(newUser);
+export async function  addUser(newUser: Partial<User>) {
+    newUser.id = store.users[store.users.length - 1].id + 1
+    await store.users.push(newUser as User);
 }
 
  export function searchUserMatchList(searchText: string) {

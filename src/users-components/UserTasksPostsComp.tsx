@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import TaskListComp from '../tasks-components/TaskListComp';
+import PostListComp from '../posts-components/PostListComp';
 import PostTemplateComp from '../posts-components/PostTemplateComp';
 import UserNewTaskFormComp from './UserNewTaskFormComp';
 import UserNewPostFormComp from './UserNewPostFormComp';
 import postModel from '../DAL/postModel';
 import './users-style/UserTasksPostsCss.scss';
-import PostListComp from '../posts-components/PostListComp';
 import { AppState, FormsEnum } from '../stores/AppStore';
 import { observer } from 'mobx-react';
+import { action } from 'mobx';
 
 @observer
 class UserTasksPostsComp extends Component {
@@ -67,29 +68,28 @@ class UserTasksPostsComp extends Component {
     // }
 
     render() {
-        // let posts = this.state.userPosts.map(p => {
-        //     return (<PostTemplateComp key={p.id}
-        //         postData={p} />)
-        // })
-        // if (posts.length === 0) posts = undefined;
-
-        // let isToggle = this.state.idToggleTasksPosts;
-        // let brdr = isToggle ? 'addBorder' : undefined;
-        // let visableStyle = isToggle ? 'block' : 'none';
-        // let taskTgl = this.state.toggleTaskForm;
-        // let postTlg = this.state.togglePostForm;
-        let brdr =  undefined;
-        let visableStyle ='block';
         return (
-            <div className={brdr} style={{ display: visableStyle }}>
-                {AppState.activeForm === FormsEnum.NewPost ? <input type="button"
-                    className="formBackBtn"
-                    value="🡄 Back"
-                    onClick={() => AppState.activeForm = FormsEnum.None} />
-                    : <input type="button" className="adding" value="Add Post" onClick={() => AppState.activeForm = FormsEnum.NewPost} />}
-                {AppState.activeForm === FormsEnum.NewPost ? <UserNewPostFormComp />: null}
-                <div id='postDiv'></div>
-                <PostListComp />
+            <div className='addBorder'>
+
+                {AppState.activeForm === FormsEnum.NewTask ?
+                    <input type="button"
+                        value="🡄 Back"
+                        className="formBackBtn"
+                        onClick={() => AppState.activeForm = FormsEnum.None} />
+                    : <input type="button" className="adding" value="Add Task" onClick={action(() => AppState.activeForm = FormsEnum.NewTask)} />}
+                {AppState.activeForm === FormsEnum.NewTask ? <UserNewTaskFormComp /> : null}
+                <div id="tasksDiv">
+                    <TaskListComp />
+                </div>
+                {AppState.activeForm === FormsEnum.NewPost ?
+                    <input type="button"
+                        className="formBackBtn"
+                        value="🡄 Back"
+                        onClick={() => AppState.activeForm = FormsEnum.None} />
+                    : <input type="button" className="adding" value="Add Post" onClick={action(() => AppState.activeForm = FormsEnum.NewPost)} />}
+                <div id='postDiv'>
+                    <PostListComp />
+                </div>
                 {/* {taskTgl ? <input type="button"
                     value="🡄 Back"
                     className="formBackBtn"

@@ -8,7 +8,7 @@ import NewUserFormComp from './NewUserFormComp';
 import * as userModel from '../DAL/userModel';
 import taskModel from '../DAL/taskModel';
 import postModel from '../DAL/postModel';
-import { AppState } from '../stores/AppStore';
+import { AppState, FormsEnum } from '../stores/AppStore';
 // import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './users-style/UserListCss.scss';
 import { computed } from 'mobx';
@@ -18,6 +18,7 @@ class UserListComp extends Component {
 
     componentDidMount() {
         userModel.getUsers();
+        taskModel.getTasks();
     }
 
     @computed
@@ -42,7 +43,7 @@ class UserListComp extends Component {
     onCloseUserForm = () => {
         this.setState({ toggleUserForm: false });
     }
-    
+
     render() {
         let userList = this.filteredUserList;
         let users = userList.map((u: any) => {
@@ -54,64 +55,23 @@ class UserListComp extends Component {
         return (
             <div id="mainPage">
                 <div id='left-column'>
-                    {/* <div>
-                    Names: {userList.map((u:any) => {
-                        return(<span>{u.name}, </span>)
-                    })}
-                </div> */}
                     <div id='mainUserList'>
                         <DashboardComp />
                         {users}
                     </div>
                 </div>
                 <div id="tasksAndPostsDiv">
+                    {AppState.activeForm === FormsEnum.NewUser ?
+                        <NewUserFormComp />
+                        : undefined }
                     {AppState.currentUserId && <UserTasksPostsComp />}
                 </div>
             </div>
 
         );
-        // let users = this.state.userList.map(u => {
-        //     return (<UserTemplateComp
-        //         key={u.id}
-        //         userData={u}
-        //         updateList={this.onUpdateList}
-        //         onShowTaskPostLists={this.toggleTaskPostLists} />)
-        // })
 
-        // let isUserFormOpen = this.state.toggleUserForm;
 
-        // let newUserForm = isUserFormOpen ?
-        //     <NewUserFormComp
-        //         newUserId={this.GetNewId()}
-        //         onCloseForm={this.onCloseUserForm}
-        //         updateUserList={this.onUpdateList} />
-        //     : undefined;
 
-        // return (
-        //     <div id="mainPage">
-
-        //         <div id='left-column'>
-        //             <div id='mainUserList'>
-        //                 <DashboardComp
-        //                     usersFound={this.getSearchedUsers}
-        //                     onAddUser={this.onAddUser}
-        //                     isUserAddable={!isUserFormOpen} />
-        //                 {users}
-        //             </div>
-        //         </div>
-
-        //         <div id="tasksAndPostsDiv">
-        //             <UserTasksPostsComp
-        //                 tasksUpdate={this.state.userTasks}
-        //                 postsUpdate={this.state.userPosts}
-        //                 idToggleTasksPosts={this.state.idToggleTasksPosts}
-        //                 onTaskDone={this.onUpdateList}
-        //                 getUpdatedTask={this.onUpdateTasks} />
-
-        //             {newUserForm}
-        //         </div>
-        //     </div>
-        // );
     }
 }
 
