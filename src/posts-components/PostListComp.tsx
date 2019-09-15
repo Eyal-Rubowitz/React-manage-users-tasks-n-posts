@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import postModel from '../DAL/postModel';
-import PostTemplateComp from './PostTemplateComp';
+import PostTemplateFunc from './PostTemplateFunc';
 import { AppState } from '../stores/AppStore';
 import { observer } from 'mobx-react';
 import { computed } from 'mobx';
@@ -19,7 +19,7 @@ class PostListComp extends Component {
         return (
             <div>
                 {this.postList.map((p, i) => {
-                    return(<PostTemplateComp post={p} key={i} />)
+                    return(<PostTemplateFunc post={p} key={i} />)
                 })}
             </div>
         );

@@ -10,7 +10,7 @@ import taskModel from '../DAL/taskModel';
 import postModel from '../DAL/postModel';
 import { AppState, FormsEnum } from '../stores/AppStore';
 // import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import './users-style/UserListCss.scss';
+import './users-style/UserList.scss';
 import { computed } from 'mobx';
 
 @observer

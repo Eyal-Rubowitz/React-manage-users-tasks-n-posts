@@ -43,10 +43,4 @@ export async function addTask(newTask: Partial<Task>) {
     await store.tasks.push(newTask as Task);
 }
 
-// export function isUserFreeOfTasks() {
-//     let res = store.tasks.filter(t => t.completed === false);
-//     console.log(res);
-//     return res;
-// }
-
 export default { getTasks, getUserTasks, taskDone, addTask }

@@ -1,10 +1,17 @@
-.taskDiv {
+div.task {
     position: relative;
     border: solid 2px purple;
     // border: solid 2px brown;
     margin: 1px auto;
     width: 99%;
-    height: 7em;
+    padding-bottom: 2em;
+
+    &>input {
+        position: absolute;
+        right: 10%;
+        bottom: 10%;
+        background-color: lightsalmon;
+    }
 }
 
 .taskData {
@@ -12,12 +19,6 @@
     display: inline-block;
 }
 
-.taskDiv>input {
-    position: absolute;
-    right: 10%;
-    bottom: 10%;
-    background-color: lightsalmon;
-}
 
 .hideTsk {
     visibility: hidden;

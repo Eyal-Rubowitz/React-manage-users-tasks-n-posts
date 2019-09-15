@@ -3,7 +3,7 @@ import * as taskModel from '../DAL/taskModel';
 import { AppState } from '../stores/AppStore';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
-import './tasks-style/TaskTemplateCss.scss';
+import './tasks-style/TaskTemplate.scss';
 
 type TaskProps = { task: taskModel.Task };
 
@@ -13,7 +13,7 @@ class TaskTemplateComp extends Component<TaskProps,{}> {
     render() {
         let btnClass = this.props.task.completed ? 'hideBtn' : undefined;
         return (
-            <div className='taskDiv' >
+            <div className='task' >
                     <h5>Title: &nbsp; {this.props.task.title}</h5>
                     <h5>Completed: &nbsp; {this.props.task.completed.toString()}</h5>
                     <input type="button"
