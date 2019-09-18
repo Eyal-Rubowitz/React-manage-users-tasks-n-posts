@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import TaskTemplateComp from './TaskTemplateComp';
 import taskModel from '../DAL/taskModel';
-import "./tasks-style/TaskTemplateCss.scss";
+import TaskTemplateComp from './TaskTemplateComp';
 import { AppState } from '../stores/AppStore';
-import { observer } from 'mobx-react';
 import { computed } from 'mobx';
+import { observer } from 'mobx-react';
+import "./tasks-style/TaskTemplate.scss";
 
 @observer
 class TaskListComp extends Component {
@@ -15,9 +15,6 @@ class TaskListComp extends Component {
     @computed get taskList() {
         return taskModel.getUserTasks(AppState.currentUserId);
     }
-    // onTaskDone = (task: Task) => {
-    //     this.props.onTaskDone(task);
-    // }
 
     render() {
         return (

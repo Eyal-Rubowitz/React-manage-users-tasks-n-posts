@@ -1,7 +1,6 @@
 div.task {
     position: relative;
     border: solid 2px purple;
-    // border: solid 2px brown;
     margin: 1px auto;
     width: 99%;
     padding-bottom: 2em;
@@ -19,13 +18,10 @@ div.task {
     display: inline-block;
 }
 
-
 .hideTsk {
     visibility: hidden;
 }
 
 .hideBtn {
     visibility: hidden;
-    /* background-color: lightsalmon;
-    transform: translate(130%, 400%); */
 }

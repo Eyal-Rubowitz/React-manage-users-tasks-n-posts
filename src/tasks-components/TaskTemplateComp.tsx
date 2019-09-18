@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import * as taskModel from '../DAL/taskModel';
-import { AppState } from '../stores/AppStore';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
-import { observable, action, computed } from 'mobx';
 import './tasks-style/TaskTemplate.scss';
 
 type TaskProps = { task: taskModel.Task };
@@ -21,7 +20,6 @@ class TaskTemplateComp extends Component<TaskProps,{}> {
                         value="Mark Completed"
                         onClick={action(() => {taskModel.taskDone(this.props.task)})} />
             </div>
-
         );
     }
 }

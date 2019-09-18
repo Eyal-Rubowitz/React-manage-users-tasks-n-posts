@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import * as userModel from '../DAL/userModel';
+import taskModel from '../DAL/taskModel';
+import { AppState, FormsEnum } from '../stores/AppStore';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
 import './users-style/UserTemplate.scss';
-import { AppState, FormsEnum } from '../stores/AppStore';
-import * as userModel from '../DAL/userModel';
-import taskModel from '../DAL/taskModel';
-import { store } from '../DAL/postModel';
 
 type UserProps = { user: userModel.User };
 

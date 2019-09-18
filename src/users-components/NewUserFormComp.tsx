@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import * as userModel from '../DAL/userModel';
 import SimpleReactValidator from 'simple-react-validator';
 import { AppState, FormsEnum } from '../stores/AppStore';
-import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
+import { observer } from 'mobx-react';
 
 @observer
 class NewUserFormComp extends Component {

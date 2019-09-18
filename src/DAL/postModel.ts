@@ -14,9 +14,8 @@ export class Post {
     body:string;
 }
 
-let _store: { posts: Post[] } = { posts: [] }
-export const store = observable(_store); 
-
+let _store: { posts: Post[] } = { posts: [] };
+export const store = observable(_store);
 
 export async function getPosts() {
     if (store.posts.length === 0) {

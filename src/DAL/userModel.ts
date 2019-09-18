@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { observable, toJS } from 'mobx';
-import { number } from 'prop-types';
 
 class Company {
     name: string = '';
     catchPhrase: string = '';
     bs: string = '';
 }
+
 export class Address {
     street: string = '';
     suite: string = '';
@@ -33,8 +33,8 @@ export class User {
     company: Company = new Company();
 }
 
-let tempStore: { users: User[] } = { users: [] }
-export const store = observable(tempStore);
+let _store: { users: User[] } = { users: [] };
+export const store = observable(_store);
 
 export async function getUsers() {
     if (store.users.length === 0) {
@@ -43,12 +43,7 @@ export async function getUsers() {
     }
 }
 
- let refreshList = async () => {
-    store.users = [];
-    getUsers();
-}
-
- export function deleteUser(id: number) {
+export function deleteUser(id: number) {
     store.users = store.users.filter(u => u.id !== id);
 }
 
@@ -57,12 +52,12 @@ export function updateUser(newUserData: User) {
     store.users = store.users.map(u => (u.id === newUserData.id) ? newUser : u);
 }
 
-export async function  addUser(newUser: Partial<User>) {
+export async function addUser(newUser: Partial<User>) {
     newUser.id = store.users[store.users.length - 1].id + 1
     await store.users.push(newUser as User);
 }
 
- export function searchUserMatchList(searchText: string) {
+export function searchUserMatchList(searchText: string) {
     if (searchText === '') return store.users;
     let searchList = store.users.filter(u =>
         u.name.toLowerCase().includes(searchText)
@@ -73,7 +68,6 @@ export async function  addUser(newUser: Partial<User>) {
 
 // export default {
 //     getUsers,
-//     refreshList,
 //     deleteUser,
 //     updateUser,
 //     addUser,
@@ -81,4 +75,3 @@ export async function  addUser(newUser: Partial<User>) {
 //     store, 
 //     User
 // }
-

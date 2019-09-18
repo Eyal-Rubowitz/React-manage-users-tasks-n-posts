@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import TaskListComp from '../tasks-components/TaskListComp';
 import PostListComp from '../posts-components/PostListComp';
 import UserNewTaskFormComp from './UserNewTaskFormComp';
-import './users-style/UserTasksPosts.scss';
+import UserNewPostFormComp from './UserNewPostFormComp';
 import { AppState, FormsEnum } from '../stores/AppStore';
 import { observer } from 'mobx-react';
 import { action } from 'mobx';
-import UserNewPostFormComp from './UserNewPostFormComp';
+import './users-style/UserTasksPosts.scss';
 
 @observer
 class UserTasksPostsComp extends Component {
