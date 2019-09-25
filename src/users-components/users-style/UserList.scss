@@ -24,25 +24,20 @@ input[type=button] {
         background-color: whitesmoke;
     }
 }
-#left-column {
+.main-column {
     display: table-cell;
     vertical-align: top;
     width: 50%;
+    position: relative;
 }
 
-#mainUserList {
-    position: relative;
+.mainUserList {
     padding: 1%;
     border: solid 1px black;
     border-radius: 50px;
 }
 
-#tasksAndPostsDiv {
-    position: relative;
-    display: table-cell;
-    margin: 1%;
-    width: 50%;
-}
+
 
 .addBorder {
     border: solid 1px black;

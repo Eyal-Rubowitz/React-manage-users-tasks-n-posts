@@ -4,6 +4,7 @@ import taskModel from '../DAL/taskModel';
 import { AppState, FormsEnum } from '../stores/AppStore';
 import { observer } from 'mobx-react';
 import { observable, action, computed } from 'mobx';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import './users-style/UserTemplate.scss';
 
 type UserProps = { user: userModel.User };
@@ -36,8 +37,6 @@ class UserTemplateComp extends Component<UserProps, {}> {
 
     @action
     onUserSelected = () => {
-        AppState.currentUserId = AppState.currentUserId === this.props.user.id 
-            ? null : this.props.user.id
         AppState.activeForm = FormsEnum.None;
     }
 
@@ -64,10 +63,13 @@ class UserTemplateComp extends Component<UserProps, {}> {
         let isTasksDoneStyle = this.getTasksStatus ? 'tasksDone' : 'tasksDidNotDone';
         let userClass = 'mainUser ' + isTasksDoneStyle;
         let extendClass = this.isExtendUserData ? 'markedBtn' : '';
+        let userId = this.props.user.id
         return (
             <div className={userClass}>
-                <span id='userId' onClick={this.onUserSelected}>
-                    ID: {this.props.user.id}
+                <span id='userId'>
+                    <Link to={'/'+ (AppState.currentUserId === userId ? '' : userId) } onClick={this.onUserSelected}>
+                            ID: {userId}
+                    </Link>
                 </span>
                 <br />
                 {this.inputField('name', this.form.name)}
